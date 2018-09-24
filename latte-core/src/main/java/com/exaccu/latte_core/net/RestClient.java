@@ -11,9 +11,12 @@ import com.exaccu.latte_core.net.callback.RequestCallbacks;
 import com.exaccu.latte_core.ui.LatteLoader;
 import com.exaccu.latte_core.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,10 +32,11 @@ public final class RestClient {
     private final IError ERROR;
     private final RequestBody BODY;
     private final LoaderStyle LOADER_STYLE;
+    private final File FILE;
     private final Context CONTEXT;
 
     public RestClient(String url, Map<String, Object> params, IRequest request, ISuccess success, IFailure failure, IError error,
-                      RequestBody body,Context context,
+                      RequestBody body,File file, Context context,
                       LoaderStyle loaderStyle) {
         URL = url;
         PARAMS.putAll(params);
@@ -41,6 +45,7 @@ public final class RestClient {
         FAILURE = failure;
         ERROR = error;
         BODY = body;
+        FILE = file;
         LOADER_STYLE = loaderStyle;
         CONTEXT = context;
     }
@@ -80,7 +85,13 @@ public final class RestClient {
             case DELETE:
                 call = service.delete(URL, PARAMS);
                 break;
-
+            case UPLOAD:
+                final RequestBody requestBody =
+                        RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
+                final MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
+                call = service.upload(URL, body);
+                break;
             default:
                 break;
         }

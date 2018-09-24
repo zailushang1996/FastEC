@@ -18,18 +18,18 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 
-
 public final class RestClientBuilder {
 
-    private  String mUrl;
+    private String mUrl;
     private static final Map<String, Object> PARAMS = RestCreator.getParams();
-    private  IRequest mRequest;
-    private  ISuccess mSuccess;
-    private  IFailure mFailure;
-    private  IError mError;
-    private  RequestBody mBody;
+    private IRequest mRequest;
+    private ISuccess mSuccess;
+    private IFailure mFailure;
+    private IError mError;
+    private RequestBody mBody;
     private Context mContext;
     private LoaderStyle mLoaderStyle;
+    private File mFile;
 
     RestClientBuilder() {
     }
@@ -46,7 +46,7 @@ public final class RestClientBuilder {
 
     public final RestClientBuilder params(String key, Object value) {
 
-       PARAMS.put(key, value);
+        PARAMS.put(key, value);
         return this;
     }
 
@@ -87,10 +87,17 @@ public final class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder file(File file) {
+        this.mFile = file;
+        return this;
+    }
 
-
+    public final RestClientBuilder file(String file) {
+        this.mFile = new File(file);
+        return this;
+    }
 
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody,mContext,mLoaderStyle);
+        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody, mFile, mContext, mLoaderStyle);
     }
 }
