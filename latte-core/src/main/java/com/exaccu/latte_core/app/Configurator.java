@@ -72,6 +72,11 @@ public final class Configurator {
         return this;
     }
 
+    public final Configurator withLoaderDelayed(long delayed) {
+        LATTE_CONFIGS.put(ConfigKeys.LOADER_DELAYED, delayed);
+        return this;
+    }
+
     public final Configurator withInterceptor(Interceptor interceptor) {
         INTERCEPTORS.add(interceptor);
         LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS);

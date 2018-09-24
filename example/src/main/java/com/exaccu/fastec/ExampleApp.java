@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.exaccu.latte.ec.icon.FontEcModule;
 import com.exaccu.latte_core.app.Latte;
+import com.exaccu.latte_core.net.interceptor.DebugInterceptor;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 /**
@@ -22,6 +23,8 @@ public class ExampleApp extends Application {
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
+                .withLoaderDelayed(1000)
+                .withInterceptor(new DebugInterceptor("index",R.raw.test))
                 .withApiHost("http://127.0.0.1").configure();
 
     }
