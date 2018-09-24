@@ -8,6 +8,7 @@ import com.exaccu.latte_core.net.callback.IFailure;
 import com.exaccu.latte_core.net.callback.IRequest;
 import com.exaccu.latte_core.net.callback.ISuccess;
 import com.exaccu.latte_core.net.callback.RequestCallbacks;
+import com.exaccu.latte_core.net.download.DownloadHandler;
 import com.exaccu.latte_core.ui.LatteLoader;
 import com.exaccu.latte_core.ui.LoaderStyle;
 
@@ -27,6 +28,9 @@ public final class RestClient {
     private final String URL;
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
     private final IRequest REQUEST;
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
@@ -35,10 +39,13 @@ public final class RestClient {
     private final File FILE;
     private final Context CONTEXT;
 
-    public RestClient(String url, Map<String, Object> params, IRequest request, ISuccess success, IFailure failure, IError error,
-                      RequestBody body,File file, Context context,
+    public RestClient(String url, Map<String, Object> params, IRequest request, String download_dir, String extension, String name, ISuccess success, IFailure failure, IError error,
+                      RequestBody body, File file, Context context,
                       LoaderStyle loaderStyle) {
         URL = url;
+        DOWNLOAD_DIR = download_dir;
+        EXTENSION = extension;
+        NAME = name;
         PARAMS.putAll(params);
         REQUEST = request;
         SUCCESS = success;
@@ -141,4 +148,9 @@ public final class RestClient {
         request(HttpMethod.DELETE);
     }
 
+    public final void download() {
+        new DownloadHandler(URL, REQUEST, DOWNLOAD_DIR, EXTENSION, NAME,
+                SUCCESS, FAILURE, ERROR)
+                .handleDownload();
+    }
 }
