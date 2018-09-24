@@ -1,18 +1,19 @@
 package com.exaccu.latte_core.net;
 
 
+import android.content.Context;
+
 import com.exaccu.latte_core.net.callback.IError;
 import com.exaccu.latte_core.net.callback.IFailure;
 import com.exaccu.latte_core.net.callback.IRequest;
 import com.exaccu.latte_core.net.callback.ISuccess;
 import com.exaccu.latte_core.net.callback.RequestCallbacks;
+import com.exaccu.latte_core.ui.LatteLoader;
+import com.exaccu.latte_core.ui.LoaderStyle;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,8 +28,12 @@ public final class RestClient {
     private final IFailure FAILURE;
     private final IError ERROR;
     private final RequestBody BODY;
+    private final LoaderStyle LOADER_STYLE;
+    private final Context CONTEXT;
 
-    public RestClient(String url, Map<String, Object> params, IRequest request, ISuccess success, IFailure failure, IError error, RequestBody body) {
+    public RestClient(String url, Map<String, Object> params, IRequest request, ISuccess success, IFailure failure, IError error,
+                      RequestBody body,Context context,
+                      LoaderStyle loaderStyle) {
         URL = url;
         PARAMS.putAll(params);
         REQUEST = request;
@@ -36,6 +41,8 @@ public final class RestClient {
         FAILURE = failure;
         ERROR = error;
         BODY = body;
+        LOADER_STYLE = loaderStyle;
+        CONTEXT = context;
     }
 
     public static RestClientBuilder builder() {
@@ -50,6 +57,9 @@ public final class RestClient {
             REQUEST.onRequestStart();
         }
 
+        if (LOADER_STYLE != null) {
+            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
+        }
 
         switch (method) {
             case GET:
@@ -86,8 +96,8 @@ public final class RestClient {
                 REQUEST,
                 SUCCESS,
                 FAILURE,
-                ERROR
-        );
+                ERROR,
+                LOADER_STYLE);
     }
 
     public final void get() {

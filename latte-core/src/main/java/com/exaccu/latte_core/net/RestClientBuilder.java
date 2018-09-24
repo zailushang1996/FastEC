@@ -7,6 +7,7 @@ import com.exaccu.latte_core.net.callback.IError;
 import com.exaccu.latte_core.net.callback.IFailure;
 import com.exaccu.latte_core.net.callback.IRequest;
 import com.exaccu.latte_core.net.callback.ISuccess;
+import com.exaccu.latte_core.ui.LoaderStyle;
 
 import java.io.File;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public final class RestClientBuilder {
     private  IFailure mFailure;
     private  IError mError;
     private  RequestBody mBody;
+    private Context mContext;
+    private LoaderStyle mLoaderStyle;
 
     RestClientBuilder() {
     }
@@ -72,9 +75,22 @@ public final class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder loader(Context context, LoaderStyle loaderStyle) {
+        this.mContext = context;
+        this.mLoaderStyle = loaderStyle;
+        return this;
+    }
+
+    public final RestClientBuilder loader(Context context) {
+        this.mContext = context;
+        this.mLoaderStyle = LoaderStyle.BallClipRotatePulseIndicator;
+        return this;
+    }
+
+
 
 
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody);
+        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody,mContext,mLoaderStyle);
     }
 }

@@ -62,4 +62,7 @@ dependencies {
     //工具包
     api 'com.blankj:utilcode:1.7.1'
 
+    //Loader依赖
+    api 'com.wang.avi:library:2.1.3'
+
 }
