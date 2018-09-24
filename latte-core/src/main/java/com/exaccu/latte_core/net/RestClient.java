@@ -1,7 +1,5 @@
 package com.exaccu.latte_core.net;
 
-import android.content.Context;
-
 
 import com.exaccu.latte_core.net.callback.IError;
 import com.exaccu.latte_core.net.callback.IFailure;
@@ -9,7 +7,7 @@ import com.exaccu.latte_core.net.callback.IRequest;
 import com.exaccu.latte_core.net.callback.ISuccess;
 import com.exaccu.latte_core.net.callback.RequestCallbacks;
 
-import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -20,47 +18,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-
 public final class RestClient {
 
-    private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
     private final String URL;
+    private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
     private final IRequest REQUEST;
-    private final String DOWNLOAD_DIR;
-    private final String EXTENSION;
-    private final String NAME;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
     private final RequestBody BODY;
-    private final File FILE;
-    private final Context CONTEXT;
 
-    RestClient(String url,
-               Map<String, Object> params,
-               String downloadDir,
-               String extension,
-               String name,
-               IRequest request,
-               ISuccess success,
-               IFailure failure,
-               IError error,
-               RequestBody body,
-               File file,
-               Context context) {
-        this.URL = url;
+    public RestClient(String url, Map<String, Object> params, IRequest request, ISuccess success, IFailure failure, IError error, RequestBody body) {
+        URL = url;
         PARAMS.putAll(params);
-        this.DOWNLOAD_DIR = downloadDir;
-        this.EXTENSION = extension;
-        this.NAME = name;
-        this.REQUEST = request;
-        this.SUCCESS = success;
-        this.FAILURE = failure;
-        this.ERROR = error;
-        this.BODY = body;
-        this.FILE = file;
-        this.CONTEXT = context;
-
+        REQUEST = request;
+        SUCCESS = success;
+        FAILURE = failure;
+        ERROR = error;
+        BODY = body;
     }
 
     public static RestClientBuilder builder() {
@@ -74,6 +49,7 @@ public final class RestClient {
         if (REQUEST != null) {
             REQUEST.onRequestStart();
         }
+
 
         switch (method) {
             case GET:
@@ -94,13 +70,7 @@ public final class RestClient {
             case DELETE:
                 call = service.delete(URL, PARAMS);
                 break;
-            case UPLOAD:
-                final RequestBody requestBody =
-                        RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
-                final MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
-                call = service.upload(URL, body);
-                break;
+
             default:
                 break;
         }
@@ -108,6 +78,7 @@ public final class RestClient {
         if (call != null) {
             call.enqueue(getRequestCallback());
         }
+
     }
 
     private Callback<String> getRequestCallback() {
@@ -148,10 +119,5 @@ public final class RestClient {
     public final void delete() {
         request(HttpMethod.DELETE);
     }
-
-    public final void upload() {
-        request(HttpMethod.UPLOAD);
-    }
-
 
 }

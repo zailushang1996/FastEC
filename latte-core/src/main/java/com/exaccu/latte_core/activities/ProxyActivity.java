@@ -13,14 +13,14 @@ import me.yokeyword.fragmentation.SupportActivityDelegate;
 
 public abstract class ProxyActivity extends SupportActivity {
 
-    private final SupportActivityDelegate DELEGATE = new SupportActivityDelegate(this);
+
 
     public abstract LatteDelegate setRootDelegate();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DELEGATE.onCreate(savedInstanceState);
+
         initContainer(savedInstanceState);
     }
 
@@ -29,13 +29,13 @@ public abstract class ProxyActivity extends SupportActivity {
         container.setId(R.id.delegate_container);
         setContentView(container);
         if (savedInstanceState == null) {
-            DELEGATE.loadRootFragment(R.id.delegate_container, setRootDelegate());
+            loadRootFragment(R.id.delegate_container, setRootDelegate());
         }
     }
 
     @Override
     protected void onDestroy() {
-        DELEGATE.onDestroy();
+
         super.onDestroy();
         System.gc();
         System.runFinalization();

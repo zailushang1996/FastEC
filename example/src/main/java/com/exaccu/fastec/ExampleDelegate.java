@@ -29,19 +29,14 @@ public class ExampleDelegate extends LatteDelegate {
         testRestClient();
     }
 
-    public void testRestClient() {
+
+    private void testRestClient() {
         RestClient.builder()
                 .url("http://news.baidu.com/")
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .failure(new IFailure() {
-                    @Override
-                    public void onFailure() {
-
+                        Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                     }
                 })
                 .error(new IError() {
@@ -51,11 +46,7 @@ public class ExampleDelegate extends LatteDelegate {
                     }
                 })
                 .build()
-                .get();
-    }
-
-    @Override
-    public void post(Runnable runnable) {
+        .get();
 
     }
 }

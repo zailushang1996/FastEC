@@ -3,8 +3,7 @@
     package="com.exaccu.latte_core">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application>
-
-    </application>
+    <application android:allowBackup="true"
+        android:supportsRtl="true"/>
 
 </manifest>

@@ -23,6 +23,7 @@ public final class RequestCallbacks implements Callback<String> {
         this.ERROR = error;
     }
 
+
     @Override
     public void onResponse(Call<String> call, Response<String> response) {
         if (response.isSuccessful()) {
@@ -33,11 +34,9 @@ public final class RequestCallbacks implements Callback<String> {
             }
         } else {
             if (ERROR != null) {
-                ERROR.onError(response.code(), response.message());
+                ERROR.onError(response.code(),response.message());
             }
         }
-
-        onRequestFinish();
     }
 
     @Override
@@ -49,11 +48,6 @@ public final class RequestCallbacks implements Callback<String> {
             REQUEST.onRequestEnd();
         }
 
-        onRequestFinish();
-    }
-
-    private void onRequestFinish() {
-        final long delayed = Latte.getConfiguration(ConfigKeys.LOADER_DELAYED);
 
     }
 }

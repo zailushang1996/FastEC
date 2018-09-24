@@ -16,27 +16,19 @@ import java.util.WeakHashMap;
 public final class Latte {
 
     public static Configurator init(Context context) {
-        Configurator.getInstance()
-                .getLatteConfigs()
-                .put(ConfigKeys.APPLICATION_CONTEXT, context.getApplicationContext());
+        getConfigurations().put(ConfigKeys.APPLICATION_CONTEXT.name(), context.getApplicationContext());
         return Configurator.getInstance();
     }
 
-    public static Configurator getConfigurator() {
-        return Configurator.getInstance();
+    public static Context getApplication() {
+        return (Context) getConfigurations().get(ConfigKeys.APPLICATION_CONTEXT.name());
     }
 
-    public static <T> T getConfiguration(Object key) {
-        return getConfigurator().getConfiguration(key);
+    public static HashMap<String,Object> getConfigurations() {
+        return Configurator.getInstance().getLatteConfigs();
     }
 
-    public static Context getApplicationContext() {
-        return getConfiguration(ConfigKeys.APPLICATION_CONTEXT);
-    }
 
-    public static Handler getHandler() {
-        return getConfiguration(ConfigKeys.HANDLER);
-    }
 
     public static void test(){
     }

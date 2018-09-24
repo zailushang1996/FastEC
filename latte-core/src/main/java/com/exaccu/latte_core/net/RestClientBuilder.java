@@ -9,6 +9,8 @@ import com.exaccu.latte_core.net.callback.IRequest;
 import com.exaccu.latte_core.net.callback.ISuccess;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import okhttp3.MediaType;
@@ -18,18 +20,13 @@ import okhttp3.RequestBody;
 
 public final class RestClientBuilder {
 
-    private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
-    private String mUrl = null;
-    private IRequest mIRequest = null;
-    private ISuccess mISuccess = null;
-    private IFailure mIFailure = null;
-    private IError mIError = null;
-    private RequestBody mBody = null;
-    private Context mContext = null;
-    private File mFile = null;
-    private String mDownloadDir = null;
-    private String mExtension = null;
-    private String mName = null;
+    private  String mUrl;
+    private static final Map<String, Object> PARAMS = RestCreator.getParams();
+    private  IRequest mRequest;
+    private  ISuccess mSuccess;
+    private  IFailure mFailure;
+    private  IError mError;
+    private  RequestBody mBody;
 
     RestClientBuilder() {
     }
@@ -45,32 +42,8 @@ public final class RestClientBuilder {
     }
 
     public final RestClientBuilder params(String key, Object value) {
-        PARAMS.put(key, value);
-        return this;
-    }
 
-    public final RestClientBuilder file(File file) {
-        this.mFile = file;
-        return this;
-    }
-
-    public final RestClientBuilder file(String file) {
-        this.mFile = new File(file);
-        return this;
-    }
-
-    public final RestClientBuilder name(String name) {
-        this.mName = name;
-        return this;
-    }
-
-    public final RestClientBuilder dir(String dir) {
-        this.mDownloadDir = dir;
-        return this;
-    }
-
-    public final RestClientBuilder extension(String extension) {
-        this.mExtension = extension;
+       PARAMS.put(key, value);
         return this;
     }
 
@@ -79,32 +52,29 @@ public final class RestClientBuilder {
         return this;
     }
 
-    public final RestClientBuilder onRequest(IRequest iRequest) {
-        this.mIRequest = iRequest;
+    public final RestClientBuilder success(ISuccess iSuccess) {
+        this.mSuccess = iSuccess;
         return this;
     }
 
-    public final RestClientBuilder success(ISuccess iSuccess) {
-        this.mISuccess = iSuccess;
+    public final RestClientBuilder onRequest(IRequest iRequest) {
+        this.mRequest = iRequest;
         return this;
     }
 
     public final RestClientBuilder failure(IFailure iFailure) {
-        this.mIFailure = iFailure;
+        this.mFailure = iFailure;
         return this;
     }
 
     public final RestClientBuilder error(IError iError) {
-        this.mIError = iError;
+        this.mError = iError;
         return this;
     }
 
 
 
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS,
-                mDownloadDir, mExtension, mName,
-                mIRequest, mISuccess, mIFailure,
-                mIError, mBody, mFile, mContext);
+        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody);
     }
 }
