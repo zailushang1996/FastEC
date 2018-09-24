@@ -12,7 +12,9 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
-
+/**
+ * Created by 傅令杰 on 2017/4/2
+ */
 
 public class LatteLoader {
 

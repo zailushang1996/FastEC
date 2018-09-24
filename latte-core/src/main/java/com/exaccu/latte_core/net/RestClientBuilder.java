@@ -10,6 +10,7 @@ import com.exaccu.latte_core.net.callback.ISuccess;
 import com.exaccu.latte_core.ui.LoaderStyle;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -29,9 +30,6 @@ public final class RestClientBuilder {
     private Context mContext;
     private LoaderStyle mLoaderStyle;
     private File mFile;
-    private String mDownloadDir = null;
-    private String mExtension = null;
-    private String mName = null;
 
     RestClientBuilder() {
     }
@@ -100,6 +98,6 @@ public final class RestClientBuilder {
     }
 
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mRequest, mDownloadDir, mExtension, mName, mSuccess, mFailure, mError, mBody, mFile, mContext, mLoaderStyle);
+        return new RestClient(mUrl, PARAMS, mRequest, mSuccess, mFailure, mError, mBody, mFile, mContext, mLoaderStyle);
     }
 }
