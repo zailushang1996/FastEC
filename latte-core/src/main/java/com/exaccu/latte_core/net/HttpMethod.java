@@ -2,7 +2,7 @@ package com.exaccu.latte_core.net;
 
 
 
-enum HttpMethod {
+public enum HttpMethod {
     GET,
     POST,
     POST_RAW,
