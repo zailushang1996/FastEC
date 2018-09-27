@@ -50,4 +50,9 @@ public class ExampleDelegate extends LatteDelegate {
         .download();
 
     }
+
+    @Override
+    public void post(Runnable runnable) {
+
+    }
 }

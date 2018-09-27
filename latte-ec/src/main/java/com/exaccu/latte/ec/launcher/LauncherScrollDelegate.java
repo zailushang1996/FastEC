@@ -37,4 +37,9 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
 
     }
+
+    @Override
+    public void post(Runnable runnable) {
+
+    }
 }
